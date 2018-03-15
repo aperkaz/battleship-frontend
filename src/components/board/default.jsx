@@ -4,10 +4,10 @@ import Row from '../row';
 import Cell from '../cell';
 
 var charCode = "a".charCodeAt(0);
-const CollumCoordinates = ({ collums }) => (
+const ColHeaders = ({ cols }) => (
     <tr>
         <td></td>
-        {collums.map((col, i) => (
+        {cols.map((col, i) => (
             <td key={i}>
                 <Cell>
                     {String.fromCharCode(charCode+i)}
@@ -17,17 +17,17 @@ const CollumCoordinates = ({ collums }) => (
     </tr>
 );
 
-const MainBoard = ({content}) => (
-    content.map((row, i) => (
-        <Row key={i} number={i+1} row={row} />
+const MainBoard = ({board, callback}) => (
+    board.map((row, i) => (
+        <Row key={i} number={i+1} row={row} callback={callback} />
     ))
 );
 
-const Board = ({ board }) => (
+const Board = ({ board, callback }) => (
     <div>
         <table>
-            <CollumCoordinates collums={board.content[0]} />
-            <MainBoard content={board.content} />
+            <ColHeaders cols={board[0]} />
+            <MainBoard board={board} callback={callback} />
         </table>
     </div>
 );

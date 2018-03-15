@@ -3,17 +3,12 @@ import { storiesOf } from '@storybook/react';
 
 import Board from './default';
 
+const emptyRow = Array(10).fill(0);
+const emptyBoard = Array(10).fill(emptyRow);
+
 const props = {
-    board: {
-        rows: 4,
-        cols: 4,
-        content: [
-            [0,-1,0,0],
-            [0,1,0,2],
-            [0,1,-1,0],
-            [0,5,0,0],
-        ],
-    },
+    board: emptyBoard,
+    callback: (row,col) => console.log(row+' : '+col)
 };
 
 storiesOf('board', module)

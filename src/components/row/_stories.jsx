@@ -6,6 +6,7 @@ import Row from './default';
 const props = {
     number: 1,
     row: [0,0,0,0,0,1,0,0,0,5,5,5,5,0],
+    callback: (row,col) => console.log(row+' : '+col)
 };
 
 storiesOf('row', module)

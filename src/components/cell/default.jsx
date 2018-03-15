@@ -8,9 +8,18 @@ const BaseCell = styled.div`
     text-align: center;
 `;
 
-const EmptyCell = BaseCell.extend`
+const CoordinateCell = BaseCell.extend`
+   display: table-cell;
+   vertical-align: middle; 
+`;
+
+const Div = BaseCell.extend`
     background-color: lightgrey;
 `;
+
+const EmptyCell = ({row,col,callback}) => (
+    <Div onClick={() => callback(row,col)} />
+);
 
 const MissCell = BaseCell.extend`   
     background-color: lightblue;
@@ -29,12 +38,18 @@ const BoatCell = BaseCell.extend`
 // 0 : default
 // 1 : hit
 // 2-5 : boat
-const Cell = ({ code, children }) => {
+const Cell = ({
+                  code,
+                  children,
+                  row,
+                  col,
+                  callback
+}) => {
     switch (code){
         case -1:
             return <MissCell/>;
         case 0:
-            return <EmptyCell/>;
+            return <EmptyCell row={row} col={col} callback={callback} />;
         case 1:
             return <HitCell/>;
         case 2:
@@ -46,11 +61,8 @@ const Cell = ({ code, children }) => {
         case 5:
             return <BoatCell/>;
         default:
-            return <BaseCell style={{ display: 'table-cell', verticalAlign: 'middle' }}>
-                {children}
-                </BaseCell>;
+            return <CoordinateCell>{children}</CoordinateCell>;
     }
 };
-
 
 export default Cell;

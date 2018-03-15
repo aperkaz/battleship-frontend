@@ -13,7 +13,7 @@ storiesOf('cell', module)
         <Cell code={-1} />
     ))
     .add('default', () => (
-        <Cell code={0} />
+        <Cell code={0} row={2} col={2} callback={(row,col) => console.log(row+' : '+col)} />
     ))
     .add('hit', () => (
         <Cell code={1} />
