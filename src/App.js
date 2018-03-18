@@ -18,8 +18,4 @@ const App = () => (
     </Provider>
 );
 
-/*
- <Game store={store} />
- */
-
 export default App;

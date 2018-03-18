@@ -30,7 +30,7 @@ export const Start = ({ store }) => {
                     <li>The player how sinks the sinks of the other player first, wins!</li>
                 </Ol>
             </div>
-            <Link view={views.preparation} params={{player}} store={store}>
+            <Link view={views.preparation} store={store}>
                 <button>Go to player-ship preparation</button>
             </Link>
         </div>

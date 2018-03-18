@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const BaseCell = styled.div`
     width: 20px;
     height: 20px;
-    margin: 2px;
     text-align: center;
 `;
 

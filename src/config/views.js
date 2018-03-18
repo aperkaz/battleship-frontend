@@ -20,10 +20,10 @@ const views = {
        },
     }),
     preparation: new Route({
-        path: '/preparation/:player',
+        path: '/preparation',
         component: <Preparation />,
         onEnter: (route, params, store) => {
-          console.log('entering /preparation route for player: ', params.player);
+          console.log('entering /preparation route for player: ');
         },
     }),
     game: new Route({
