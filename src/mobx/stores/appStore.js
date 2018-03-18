@@ -1,14 +1,13 @@
 import {observable, action} from 'mobx';
+import { getOpponent, cellCodes } from '../../helpers';
 
-const boardSize = 10;
+const boardSize = 3;
 
 const emptyRow = Array(boardSize).fill(0);
 const emptyBoard = Array(boardSize).fill(emptyRow);
 
 
-const initialBoardSet = {
-    boards: [[null,null],[null,null]],
-};
+const initialBoardSet = [[emptyBoard,emptyBoard],[emptyBoard,emptyBoard]];
 
 const initialPreparation = {
     board: emptyBoard,
@@ -20,7 +19,6 @@ const initialPreparation = {
     finished: false,
 };
 
-const getContraryPlayer = player => player === 0? 1: 0;
 
 
 class AppStore {
@@ -29,19 +27,35 @@ class AppStore {
     @observable players = {
         turn: 0,
         list: ['player1', 'player2'],
+        waitForTurn: true,
     };
 
     @action.bound
     changePlayerTurn(){
-        this.players.turn = getContraryPlayer(this.players.turn);
+        this.players.turn = getOpponent(this.players.turn);
     }
 
+    @action.bound
+    turnWait(){
+        console.log('waitTurn');
+        this.players.waitForTurn = true;
+    }
+
+    @action.bound
+    endTurnWait(){
+        console.log('endWaitTurn');
+        this.players.waitForTurn = false;
+    }
+
+
+
     @observable rules = {
-        ships: [[5,1], [4,1], [3,1], [2,2]],
+        // ships: [[5,1], [4,1], [3,1], [2,2]],
+        ships: [[3,1]],
     };
 
 
-    @observable boards= [[null,null],[null,null]];
+    @observable boards= initialBoardSet ;
 
     @observable transitionBoard = emptyBoard;
 
@@ -54,6 +68,15 @@ class AppStore {
             count: 0,
         },
         finished: false,
+        resetPreparation:() => (
+            this.board = emptyBoard,
+            this.shipIndex = 0,
+            this.current = {
+                placedCells: 0,
+                count: 0,
+            },
+            this.finished = false
+        ),
     };
 
 
@@ -70,6 +93,7 @@ class AppStore {
     advancePreparation(){
         console.log('end preparation or change turn');
         if(this.players.turn === (this.players.list.length-1)){
+            this.changePlayerTurn();
             this.shipPreparation.finished = true;
         }else {
             this.shipPreparation.shipIndex = 0;
@@ -119,9 +143,38 @@ class AppStore {
         }
     }
 
-
     @action.bound
-    sendHit(){
+    sendHit(row, col){
+        console.log('send hit to', row ,':', col);
+
+        const opponentIndex = getOpponent(this.players.turn);
+
+        // defer indexes
+        row--;
+        col--;
+
+        const opponentBoard = this.boards[0][opponentIndex];
+        const selectedCell = opponentBoard[row][col];
+
+        if(cellCodes.boats.includes(selectedCell)){
+            alert('hit!');
+            this.boards[0][opponentIndex][row][col] = cellCodes.hit;
+            this.boards[1][this.players.turn][row][col] = cellCodes.hit;
+        }else{
+            alert('miss!');
+            this.boards[0][opponentIndex][row][col] = cellCodes.missed;
+            this.boards[1][this.players.turn][row][col] = cellCodes.missed;
+        }
+
+        // TODO - sink ship ?
+
+        // TODO - game won ?
+
+
+
+
+        this.turnWait();
+        this.changePlayerTurn();
 
     }
 

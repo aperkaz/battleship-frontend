@@ -4,11 +4,10 @@ import {Route} from 'mobx-router';
 // components
 import Start from '../components/Start';
 import Preparation from '../components/Preparation';
-// -> game page
-// -> scoreboard page
+import Game from '../components/Game';
+
 
 // TODO - remove and change
-const Game= () => <div>Game</div>;
 const Scoreboard = () => <div>Scoreboard</div>;
 
 const views = {

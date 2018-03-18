@@ -2,26 +2,23 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Cell from './default';
+import { cellCodes } from '../../helpers';
 
-// -- Cell codes --
-// -1 : missed
-// 0 : default
-// 1 : hit
-// 2-5 : boat
+
 storiesOf('cell', module)
     .add('missed', () => (
-        <Cell code={-1} />
+        <Cell code={cellCodes.missed} />
     ))
     .add('default', () => (
-        <Cell code={0} row={2} col={2} callback={(row,col) => console.log(row+' : '+col)} />
+        <Cell code={cellCodes.default} row={2} col={2} callback={(row,col) => console.log(row+' : '+col)} />
     ))
     .add('hit', () => (
-        <Cell code={1} />
+        <Cell code={cellCodes.hit} />
     ))
     .add('boat', () => (
-        <Cell code={2} />
+        <Cell code={cellCodes.boats[0]} />
     ))
     .add('boat\'', () => (
-        <Cell code={5} />
+        <Cell code={cellCodes.boats[2]} />
     ))
 ;

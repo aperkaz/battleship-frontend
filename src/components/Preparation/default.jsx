@@ -15,13 +15,10 @@ const Div = styled.div`
 
 // TODO - remove rendering hack (board)
 export const Preparation = ({ store }) => {
-
     const {app: {players, shipPreparation, rules}} = store;
 
     const size  = rules.ships[store.app.shipPreparation.shipIndex][0];
     const count = rules.ships[store.app.shipPreparation.shipIndex][1];
-
-    console.log(store.app.shipPreparation);
 
     return(
         <div>

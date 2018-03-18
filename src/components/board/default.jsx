@@ -23,7 +23,7 @@ const MainBoard = ({board, callback}) => (
     ))
 );
 
-const Board = ({ board, callback }) => (
+const Board = ({ board, callback = () => null }) => (
     <div>
         <table>
             <ColHeaders cols={board[0]} />

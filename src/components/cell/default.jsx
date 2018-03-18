@@ -5,6 +5,7 @@ const BaseCell = styled.div`
     width: 20px;
     height: 20px;
     text-align: center;
+    margin: 2px;
 `;
 
 const CoordinateCell = BaseCell.extend`
