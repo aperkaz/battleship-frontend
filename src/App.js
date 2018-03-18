@@ -1,17 +1,25 @@
-import React, { Component } from 'react';
+import React  from 'react';
+import { MobxRouter, startRouter } from 'mobx-router';
 
-import store from './store';
-import Game from './components/game';
+// mobx
+import { Provider } from 'mobx-react';
+import store from './mobx/store';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Battleship</h1>
-        <Game store={store} />
-      </div>
-    );
-  }
-}
+// router
+import views from './config/views';
+startRouter(views, store);
+
+const App = () => (
+    <Provider store={store}>
+        <div style={{ textAlign: 'center'}}>
+            <h1>{store.app.title}</h1>
+            <MobxRouter/>
+          </div>
+    </Provider>
+);
+
+/*
+ <Game store={store} />
+ */
 
 export default App;

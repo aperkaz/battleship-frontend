@@ -1,1 +1,1 @@
-export {default} from './default';
+export {default} from '../mobx/stores/appStore';

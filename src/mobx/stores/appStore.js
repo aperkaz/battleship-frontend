@@ -1,4 +1,4 @@
-import {observable, action, computed} from 'mobx';
+import {observable, action} from 'mobx';
 
 
 const boardSize = 10;
@@ -10,22 +10,15 @@ const initialBoardSet = {
     boards: [[emptyBoard, emptyBoard],[emptyBoard, emptyBoard]],
 };
 
-
 const getContraryPlayer = player => player === 0? 1: 0;
 
-class Store {
+
+class AppStore {
 
 
-    @observable game = {
-        stageIndex: 0,
-        stages: ['preparation', 'start'],
-        boards: initialBoardSet,
-    };
+    @observable title = 'Battleship';
 
-    @action.bound
-    nextGameStage(){
-        this.game.stageIndex++;
-    }
+    @observable boards= initialBoardSet;
 
 
     @observable players = {
@@ -62,4 +55,4 @@ class Store {
 }
 
 
-export default new Store();
+export default AppStore;
