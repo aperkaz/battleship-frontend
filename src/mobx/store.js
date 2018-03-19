@@ -8,9 +8,14 @@ import GameStore from './stores/gameStore';
 const title = 'Battleship';
 const players = ['player1', 'player2'];
 const rules = {
-    boardWidth: 10,
-    ships: [[5,1], [4,1], [3,1], [2,2]],
+    boardWidth: 3,
+    ships: [[2,1]],
 };
+
+/*
+boardWidth: 10,
+    ships: [[5,1], [4,1], [3,1], [2,2]],
+* */
 
 class RootStore{
     constructor() {

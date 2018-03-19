@@ -20,32 +20,29 @@ const BoardLabel = styled.div`
 `;
 
 const Game = ({store}) => {
-    const {app: {players, boards, sendHit, endTurnWait}} = store;
-
-    const player = players.list[players.turn];
-
+    const {players, game} = store;
 
     return(
         <div>
             <div>Game on!</div>
-            <h4>Turn of: {player}</h4>
-            {(store.app.players.waitForTurn)?
-                <button onClick={endTurnWait}>Resume as {player}</button>
+            <h4>Turn of: {players.list[players.turn]}</h4>
+            {(players.turnWait)?
+                <button onClick={players.toggleTurnWait}>Resume as {players.list[players.turn]}</button>
             : <div>
-                    <div>{JSON.stringify(store.app.boards[0][players.turn])}</div>
+                    <div>{JSON.stringify(game.boards)}</div>
                     <br/>
-                    <div>{JSON.stringify(store.app.boards[1][players.turn])}</div>
+
                     <br/>
                     <Div>
                         <div>
                             <OpponentBoard
-                                board={boards[1][players.turn]}
-                                callback={sendHit}
+                                board={game.boards[1][players.turn]}
+                                callback={game.sendHit}
                             />
                             <BoardLabel>Opponent's board</BoardLabel>
                         </div>
                         <PlayerBoardWrapper>
-                            <PlayerBoard board={boards[0][players.turn]} />
+                            <PlayerBoard board={game.boards[0][players.turn]} />
                             <BoardLabel>My board</BoardLabel>
                         </PlayerBoardWrapper>
                     </Div>

@@ -4,10 +4,10 @@ import {Route} from 'mobx-router';
 // -- app --
 import Start from '../components/pages/Start';
 import Preparation from '../components/pages/Preparation';
-/*import Game from '../components/pages/Game';*/
+import Game from '../components/pages/Game';
+import Celebration from '../components/pages/Celebration';
 
 // TODO - remove
-const Game = () => <div>Game</div>;
 const Scoreboard = () => <div>Scoreboard</div>;
 
 const views = {
@@ -37,6 +37,13 @@ const views = {
         component: <Scoreboard/>,
         beforeEnter: (route, params, store) => {
             console.log('entering /scoreboard route');
+        },
+    }),
+    celebration: new Route({
+        path: '/celebration',
+        component: <Celebration/>,
+        beforeEnter: (route, params, store) => {
+            console.log('entering /celebration route');
         },
     }),
 };

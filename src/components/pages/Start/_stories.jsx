@@ -4,6 +4,9 @@ import { storiesOf } from '@storybook/react';
 import Start from './default';
 
 const store = {
+    game: {
+        title: 'battleship'
+    },
     router: () => 'bar'
 };
 

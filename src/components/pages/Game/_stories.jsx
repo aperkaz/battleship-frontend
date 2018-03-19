@@ -34,5 +34,7 @@ const store = {
 
 storiesOf('pages/Game', module)
     .add('default', () => (
-        <Game store={store} />
+        <div style={{ textAlign: 'center' }}>
+            <Game store={store} />
+        </div>
     ));

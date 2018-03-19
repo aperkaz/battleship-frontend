@@ -25,7 +25,9 @@ export const Preparation = ({ store }) => {
         <div>
             <div>Preparation screen for</div>
             <h4>{players.list[players.turn]}</h4>
-            <div style={{ visibility: 'hidden'}}>{JSON.stringify(preparation.board)}</div>
+            <div style={{ visibility: ''}}>{JSON.stringify(game.boards[0])}</div>
+            <br/>
+            <div style={{ visibility: ''}}>{JSON.stringify(preparation.board)}</div>
             <div>Ship count: {preparation.current.shipCount}</div>
             <div>Ship pieces: {preparation.current.shipPieces}</div>
             <Div>
@@ -35,12 +37,12 @@ export const Preparation = ({ store }) => {
             <br/>
             <button onClick={game.resetPreparation}>Reset preparation board</button>
             <br/>
+            <br/>
             {preparation.playerFinished
             ? <button onClick={store.game.prepareNextPlayer}>Switch to Next player</button>
             : null}
-            <br/>
             {preparation.finished ?
-                <Link view={views.game} store={store}><button>Start game</button></Link>
+                <Link view={views.game} store={store}><button onClick={store.players.changeTurn}>Start game</button></Link>
             : null}
         </div>
     );

@@ -1,17 +1,20 @@
 import {observable, action} from 'mobx';
-import {CellCodes, getOpponent} from "../../helpers";
+import {
+    createEmptyBoard,
+    CellCodes,
+    isGameFinished,
+    isShipCode,
+    numberToCharCoordinate
+} from '../../helpers';
+import views from '../../config/views';
 
-
-const createEmptyBoard = width => {
-    const emptyRow = Array(width).fill(CellCodes.default);
-    return Array(width).fill(emptyRow);
-};
 
 class GameStore {
     constructor(rootStore, title, rules){
         this.rootStore = rootStore;
         this.title = title;
         this.rules = rules;
+        this.gameFinished = false;
         this.initBoards();
         this.initPreparation();
     }
@@ -40,9 +43,9 @@ class GameStore {
 
     @observable title = '';
     @observable rules = {};
+    @observable gameFinished = false;
 
     @observable boards = [[null,null],[null,null]];
-
     @observable preparation = {
         callback: null,
         board: null,
@@ -116,6 +119,9 @@ class GameStore {
             if(this.rootStore.players.isLastPlayer()){
                 console.log('last player');
                 this.preparation.finished = true;
+                const playerIndex = this.rootStore.players.turn;
+                this.boards[0][playerIndex] = this.preparation.board;
+
             }else {
                 console.log('NOT last player');
                 this.preparation.playerFinished = true;
@@ -138,45 +144,64 @@ class GameStore {
         this.initPreparation();
     }
 
-/*
+
     @action.bound
     sendHit(row, col){
+        // TODO - complete
         console.log('send hit to', row ,':', col);
-
-        const opponentIndex = getOpponent(this.players.turn);
 
         // defer indexes
         row--;
         col--;
 
+        const playerIndex = this.rootStore.players.turn;
+        const opponentIndex = this.rootStore.players.getOpponentIndex();
+
+
         const opponentBoard = this.boards[0][opponentIndex];
         const selectedCell = opponentBoard[row][col];
 
-        if(cellCodes.boats.includes(selectedCell)){
-            alert('hit!');
-            this.boards[0][opponentIndex][row][col] = cellCodes.hit;
-            this.boards[1][this.players.turn][row][col] = cellCodes.hit;
+        if(isShipCode(selectedCell)){
+            const colInChar = numberToCharCoordinate(col);
+            alert(`hit! [${row + 1},${colInChar}]`);
+            this.boards[0][opponentIndex][row][col] = CellCodes.hit;
+            this.boards[1][playerIndex][row][col] = CellCodes.hit;
         }else{
-            alert('miss!');
-            this.boards[0][opponentIndex][row][col] = cellCodes.missed;
-            this.boards[1][this.players.turn][row][col] = cellCodes.missed;
+            const colInChar = numberToCharCoordinate(col);
+            alert(`miss![${row + 1},${colInChar}]`);
+            this.boards[0][opponentIndex][row][col] = CellCodes.missed;
+            this.boards[1][playerIndex][row][col] = CellCodes.missed;
         }
 
-        // TODO - sink ship ?
-
         // TODO - game won ?
+        const board = this.boards[0][opponentIndex];
+        if(isGameFinished(board)){
+        //if(false){
+            console.log('game finished');
+            // notify
+            this.rootStore.router.goTo(views.celebration);
+            // send REST call
 
+            // clean up store for new game
 
-
-
-        this.turnWait();
-        this.changePlayerTurn();
+            //
+        }else{
+            // end of turn
+            this.rootStore.players.toggleTurnWait();
+            this.rootStore.players.changeTurn();
+        }
 
     }
 
-*/
     @action.bound
+    newGame(){
+        // TODO - assert it cleans correctly
+     this.reset();
+     this.rootStore.router.goTo(views.start);
+    }
+
     reset() {
+        // TODO - assert it cleans correctly
         this.initBoards();
         this.initPreparation();
     }
