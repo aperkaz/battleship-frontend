@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Cell from './default';
-import { cellCodes } from '../../helpers';
+import { cellCodes } from '../../../helpers/index';
 
 
 storiesOf('cell', module)

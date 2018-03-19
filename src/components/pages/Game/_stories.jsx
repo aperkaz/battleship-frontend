@@ -32,7 +32,7 @@ const store = {
     },
 };
 
-storiesOf('Game page', module)
+storiesOf('pages/Game', module)
     .add('default', () => (
         <Game store={store} />
     ));

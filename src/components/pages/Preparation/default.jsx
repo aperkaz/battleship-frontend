@@ -2,10 +2,10 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'mobx-router';
 import styled from 'styled-components';
-import views from '../../config/views';
+import views from '../../../config/views';
 
-import PreparationBoard from '../board';
-import ShipPlacement from '../shipPlacement';
+import PreparationBoard from '../../widgets/board/index';
+import ShipPlacement from '../../widgets/shipPlacement/index';
 
 const Div = styled.div`
      display: flex;
@@ -29,9 +29,14 @@ export const Preparation = ({ store }) => {
                 <PreparationBoard board={shipPreparation.board} callback={shipPreparation.callback}/>
                 <ShipPlacement count={count} size={size} />
             </Div>
+            <br/>
             <button onClick={store.app.resetPreparation}>Reset board</button>
             <br/>
-            {shipPreparation.finished?
+            {shipPreparation.playerFinished
+            ? <button onClick={store.app.prepareNextPlayer}>Next player</button>
+            : null}
+            <br/>
+            {shipPreparation.finished ?
                 <Link view={views.game} store={store}><button>Start game</button></Link>
             : null}
         </div>

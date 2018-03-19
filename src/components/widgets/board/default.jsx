@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Row from '../row';
-import Cell from '../cell';
+import Row from '../row/index';
+import Cell from '../cell/index';
 
 var charCode = "a".charCodeAt(0);
 const ColHeaders = ({ cols }) => (

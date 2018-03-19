@@ -1,13 +1,15 @@
+// -- dependencies --
 import React from 'react';
 import {Route} from 'mobx-router';
-
-// components
-import Start from '../components/Start';
-import Preparation from '../components/Preparation';
-import Game from '../components/Game';
+// -- app --
+import Start from '../components/pages/Start';
+/*import Preparation from '../components/pages/Preparation';
+import Game from '../components/pages/Game';*/
 
 
 // TODO - remove and change
+const Preparation = () => <div>Preparation</div>;
+const Game = () => <div>Game</div>;
 const Scoreboard = () => <div>Scoreboard</div>;
 
 const views = {
@@ -22,7 +24,7 @@ const views = {
         path: '/preparation',
         component: <Preparation />,
         onEnter: (route, params, store) => {
-          console.log('entering /preparation route for player: ');
+          console.log('entering /preparation route');
         },
     }),
     game: new Route({
@@ -38,8 +40,7 @@ const views = {
         beforeEnter: (route, params, store) => {
             console.log('entering /scoreboard route');
         },
-    })
-
+    }),
 };
 
 export default views;

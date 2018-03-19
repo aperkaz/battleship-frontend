@@ -1,5 +1,5 @@
 
-export const cellCodes = {
+export const CellCodes = {
     missed: -1,
     default: 0,
     hit: 1,

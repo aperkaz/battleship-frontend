@@ -1,10 +1,10 @@
+// -- dependencies --
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import styled from 'styled-components';
-
-import PlayerBoard from '../board';
-import OpponentBoard from '../board';
-import { getOpponent } from '../../helpers';
+// -- app --
+import PlayerBoard from '../../widgets/board/index';
+import OpponentBoard from '../../widgets/board/index';
 
 const Div = styled.div`
      display: flex;
@@ -13,6 +13,10 @@ const Div = styled.div`
 
 const PlayerBoardWrapper = styled.div`
     margin-left: 150px;
+`;
+
+const BoardLabel = styled.div`
+    margin: 20px;
 `;
 
 const Game = ({store}) => {
@@ -38,11 +42,11 @@ const Game = ({store}) => {
                                 board={boards[1][players.turn]}
                                 callback={sendHit}
                             />
-                            <div>Opponent's board</div>
+                            <BoardLabel>Opponent's board</BoardLabel>
                         </div>
                         <PlayerBoardWrapper>
                             <PlayerBoard board={boards[0][players.turn]} />
-                            <div>My board</div>
+                            <BoardLabel>My board</BoardLabel>
                         </PlayerBoardWrapper>
                     </Div>
                     <br/>

@@ -12,7 +12,7 @@ startRouter(views, store);
 const App = () => (
     <Provider store={store}>
         <div style={{ textAlign: 'center'}}>
-            <h1>{store.app.title}</h1>
+            <h1>{store.game.title}</h1>
             <MobxRouter/>
           </div>
     </Provider>

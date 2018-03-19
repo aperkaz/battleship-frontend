@@ -1,5 +1,5 @@
 import React from 'react';
-import Cell from '../cell';
+import Cell from '../cell/index';
 
 const Row = ({ number, row, callback }) => (
     <tbody>

@@ -1,9 +1,25 @@
-import AppStore from './stores/appStore';
+// -- dependencies --
 import { RouterStore } from 'mobx-router';
+// -- app --
+import PlayerStore from './stores/playerStore';
+import GameStore from './stores/gameStore';
 
-const store = {
-    app: new AppStore(),
-    router: new RouterStore()
+// constants
+const title = 'Battleship';
+const players = ['player1', 'player2'];
+const rules = {
+    boardWidth: 10,
+    ships: [[5,1], [4,1], [3,1], [2,2]],
 };
 
-export default store;
+class RootStore{
+    constructor() {
+        this.player = new PlayerStore(this, ...players);
+        this.game = new GameStore(this, title, rules);
+        this.router = new RouterStore();
+    }
+}
+
+const rootStore = new RootStore();
+
+export default rootStore;

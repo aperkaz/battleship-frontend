@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx';
 import { getOpponent, cellCodes } from '../../helpers';
-
+/*
 const boardSize = 3;
 
 const emptyRow = Array(boardSize).fill(0);
@@ -18,34 +18,14 @@ const initialPreparation = {
     },
     finished: false,
 };
-
+*/
 
 
 class AppStore {
+    /*
     @observable title = 'Battleship';
 
-    @observable players = {
-        turn: 0,
-        list: ['player1', 'player2'],
-        waitForTurn: true,
-    };
 
-    @action.bound
-    changePlayerTurn(){
-        this.players.turn = getOpponent(this.players.turn);
-    }
-
-    @action.bound
-    turnWait(){
-        console.log('waitTurn');
-        this.players.waitForTurn = true;
-    }
-
-    @action.bound
-    endTurnWait(){
-        console.log('endWaitTurn');
-        this.players.waitForTurn = false;
-    }
 
 
 
@@ -67,6 +47,7 @@ class AppStore {
             placedCells: 0,
             count: 0,
         },
+        playerFinished: false,
         finished: false,
         resetPreparation:() => (
             this.board = emptyBoard,
@@ -75,7 +56,8 @@ class AppStore {
                 placedCells: 0,
                 count: 0,
             },
-            this.finished = false
+            this.finished = false,
+            this.playerFinished = false
         ),
     };
 
@@ -89,6 +71,12 @@ class AppStore {
         };
     }
 
+    @action.bound
+    prepareNextPlayer(){
+        this.shipPreparation.playerFinished = false;
+        this.changePlayerTurn();
+    }
+
 
     advancePreparation(){
         console.log('end preparation or change turn');
@@ -98,7 +86,7 @@ class AppStore {
         }else {
             this.shipPreparation.shipIndex = 0;
             this.shipPreparation.board = emptyBoard;
-            this.changePlayerTurn();
+            this.playerFinished = true;
         }
     }
 
@@ -185,6 +173,7 @@ class AppStore {
         this.players.turn = 0;
         this.game.boards = Object.assign({}, initialBoardSet);
     }
+    */
 }
 
 
