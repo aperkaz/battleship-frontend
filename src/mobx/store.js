@@ -14,7 +14,7 @@ const rules = {
 
 class RootStore{
     constructor() {
-        this.player = new PlayerStore(this, ...players);
+        this.players = new PlayerStore(this, ...players);
         this.game = new GameStore(this, title, rules);
         this.router = new RouterStore();
     }

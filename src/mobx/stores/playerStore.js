@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx';
 
-const getOpponentIndex = player => player === 0? 1: 0;
+
 
 class PlayerStore {
 
@@ -14,10 +14,17 @@ class PlayerStore {
     @observable turnWait = true;
     @observable list = [];
 
+    getOpponentIndex(){
+        return this.turn === 0? 1: 0;
+    }
+
+    isLastPlayer(){
+        return this.turn === (this.list.length-1);
+    }
 
     @action.bound
     changeTurn(){
-        this.turn = getOpponentIndex(this.turn);
+        this.turn = this.getOpponentIndex();
     }
 
     @action.bound

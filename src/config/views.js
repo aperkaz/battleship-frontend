@@ -3,12 +3,10 @@ import React from 'react';
 import {Route} from 'mobx-router';
 // -- app --
 import Start from '../components/pages/Start';
-/*import Preparation from '../components/pages/Preparation';
-import Game from '../components/pages/Game';*/
+import Preparation from '../components/pages/Preparation';
+/*import Game from '../components/pages/Game';*/
 
-
-// TODO - remove and change
-const Preparation = () => <div>Preparation</div>;
+// TODO - remove
 const Game = () => <div>Game</div>;
 const Scoreboard = () => <div>Scoreboard</div>;
 

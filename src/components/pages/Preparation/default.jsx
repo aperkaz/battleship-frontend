@@ -12,31 +12,34 @@ const Div = styled.div`
      justify-content: center;
 `;
 
-
 // TODO - remove rendering hack (board)
 export const Preparation = ({ store }) => {
-    const {app: {players, shipPreparation, rules}} = store;
+    const {players, game} = store;
+    const {preparation} = game;
 
-    const size  = rules.ships[store.app.shipPreparation.shipIndex][0];
-    const count = rules.ships[store.app.shipPreparation.shipIndex][1];
+
+    const size  = game.rules.ships[preparation.shipIndex][0];
+    const count = game.rules.ships[preparation.shipIndex][1];
 
     return(
         <div>
             <div>Preparation screen for</div>
             <h4>{players.list[players.turn]}</h4>
-            <div style={{ visibility: 'hidden'}}>{JSON.stringify(store.app.shipPreparation.board)}</div>
+            <div style={{ visibility: 'hidden'}}>{JSON.stringify(preparation.board)}</div>
+            <div>Ship count: {preparation.current.shipCount}</div>
+            <div>Ship pieces: {preparation.current.shipPieces}</div>
             <Div>
-                <PreparationBoard board={shipPreparation.board} callback={shipPreparation.callback}/>
+                <PreparationBoard board={preparation.board} callback={preparation.callback}/>
                 <ShipPlacement count={count} size={size} />
             </Div>
             <br/>
-            <button onClick={store.app.resetPreparation}>Reset board</button>
+            <button onClick={game.resetPreparation}>Reset preparation board</button>
             <br/>
-            {shipPreparation.playerFinished
-            ? <button onClick={store.app.prepareNextPlayer}>Next player</button>
+            {preparation.playerFinished
+            ? <button onClick={store.game.prepareNextPlayer}>Switch to Next player</button>
             : null}
             <br/>
-            {shipPreparation.finished ?
+            {preparation.finished ?
                 <Link view={views.game} store={store}><button>Start game</button></Link>
             : null}
         </div>

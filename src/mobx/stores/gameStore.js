@@ -18,68 +18,24 @@ class GameStore {
 
     initBoards(){
         const boardWidth = this.rules.boardWidth;
-        this.tempBoard = createEmptyBoard(boardWidth);
         this.boards = [
             [createEmptyBoard(boardWidth),createEmptyBoard(boardWidth)],
             [createEmptyBoard(boardWidth),createEmptyBoard(boardWidth)]
         ];
     }
 
-    /*
-    @action.bound
-    setShipCell(row, col){
-        console.log(`about to set ship cell in ${row}: ${col}`);
-
-        const currentShipIndex = this.preparation.shipIndex;
-
-        const shipSize = this.rules.ships[currentShipIndex][0];
-        const shipCount = this.rules.ships[currentShipIndex][1];
-
-        let board = this.preparation.board;
-        let currentShip = this.preparation.current;
-
-        // adequate board indexes
-        board[row-1][col-1] = shipSize;
-        this.preparation.current.placedCells++;
-
-        //is ship complete
-        if(this.preparation.current.placedCells === shipSize){
-            this.preparation.current.placedCells = 0;
-            this.preparation.current.count++;
-            console.log('last ship-cell placed');
-        }
-
-        // is the last ship of a type
-        if(this.preparation.current.count === shipCount) {
-            console.log('last ship of type placed');
-            this.preparation.current.count = 0;
-            this.preparation.current.placedCells = 0;
-
-
-            // is the last ship for the player
-            if (this.preparation.shipIndex === (this.rules.ships.length -1 )){
-                this.boards[0][this.rootStore.playerStore.turn] = this.preparation.board;
-                this.preparation();
-            }else {
-                this.preparation.shipIndex++;
-            }
-        }
-    }
-*/
-
-    @observable preparation = {};
-
     initPreparation(){
-        this.preparation.selectCell = (row, col) => console.log(this.setShipCell(row, col));
+        this.preparation.callback = this.prepareCell;
         this.preparation.board = createEmptyBoard(this.rules.boardWidth);
         this.preparation.shipIndex = 0;
         this.preparation.current = {
             shipPieces: 0,
             shipCount: 0,
+            isComplete: false,
+            isTypeComplete: false,
         };
         this.preparation.playerFinished = false;
         this.preparation.finished = false;
-        this.preparation.reset = () => this.initPreparation();
     }
 
     @observable title = '';
@@ -87,34 +43,100 @@ class GameStore {
 
     @observable boards = [[null,null],[null,null]];
 
+    @observable preparation = {
+        callback: null,
+        board: null,
+        shipIndex: 0,
+        current: {
+            shipPieces: 0,
+            shipCount: 0,
+            isComplete: false,
+            isTypeComplete: false,
+        },
+        playerFinished: false,
+        finished: false,
+    };
 
+    computeShipCompletion(){
+        const currentShipPieces = this.preparation.current.shipPieces;
+        const completeShipPieces = this.rules.ships[this.preparation.shipIndex][0];
+        this.preparation.current.isComplete = currentShipPieces === completeShipPieces;
+    }
+
+    computeShipTypeCompletion(){
+        const currentShipNumber = this.preparation.current.shipCount;
+        const completeShipNumber = this.rules.ships[this.preparation.shipIndex][1];
+        this.preparation.current.isTypeComplete = currentShipNumber === completeShipNumber;
+    }
+
+    @action.bound
+    prepareCell(row,col){
+        console.log(`about to set ship cell in ${row}: ${col}`);
+
+        // defer indexes
+        row--;
+        col--;
+
+        const currentShipIndex = this.preparation.shipIndex;
+        const shipSize = this.rules.ships[currentShipIndex][0];
+        let shipOnPreparation = this.preparation.current;
+
+        // set ship-piece on board-cell
+        this.preparation.board[row][col] = shipSize;
+        shipOnPreparation.shipPieces++;
+
+        this.computeShipCompletion();
+
+        // is ship complete
+        if(shipOnPreparation.isComplete){
+            console.log('ship is complete!');
+            shipOnPreparation.shipCount++;
+
+            shipOnPreparation.shipPieces = 0;
+            shipOnPreparation.isComplete = false;
+        }
+
+        // is ship-type complete
+        this.computeShipTypeCompletion();
+
+        if(shipOnPreparation.isTypeComplete){
+            console.log('ship type is complete!');
+            this.preparation.shipIndex++;
+
+            shipOnPreparation.shipCount = 0;
+            shipOnPreparation.isTypeComplete = false;
+        }
+
+
+        // is it the last ship of the player
+        if(this.preparation.shipIndex === (this.rules.ships.length)) {
+            console.log('last ship of player');
+            this.preparation.shipIndex = 0;
+
+            if(this.rootStore.players.isLastPlayer()){
+                console.log('last player');
+                this.preparation.finished = true;
+            }else {
+                console.log('NOT last player');
+                this.preparation.playerFinished = true;
+            }
+        }
+    }
+
+    @action.bound
+    prepareNextPlayer(){
+        const playerIndex = this.rootStore.players.turn;
+        this.boards[0][playerIndex] = this.preparation.board;
+
+        this.rootStore.players.changeTurn();
+        this.resetPreparation();
+    }
 
     @action.bound
     resetPreparation(){
         console.log('resetting preparation');
         this.initPreparation();
     }
-    /*
-    @action.bound
-    prepareNextPlayer(){
-        this.shipPreparation.playerFinished = false;
-        this.changePlayerTurn();
-    }
-
-    advancePreparation(){
-        console.log('end preparation or change turn');
-        if(this.players.turn === (this.players.list.length-1)){
-            this.changePlayerTurn();
-            this.shipPreparation.finished = true;
-        }else {
-            this.shipPreparation.shipIndex = 0;
-            this.shipPreparation.board = emptyBoard;
-            this.playerFinished = true;
-        }
-    }
-
-*/
-
 
 /*
     @action.bound
