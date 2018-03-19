@@ -10,53 +10,112 @@ export const isShipCode = code => (
 );
 
 export const createEmptyBoard = width => {
-    const emptyRow = Array(width).fill(CellCodes.default);
-    return Array(width).fill(emptyRow);
+    let board = [];
+
+    for(let i=0; i<width; i++) {
+        board[i] = new Array(width).fill(CellCodes.default);
+    }
+    return board;
 };
 
 export const numberToCharCoordinate = number => (
     String.fromCharCode("a".charCodeAt(0) + number)
 );
 
-export const isGameFinished = board => {
-    // TODO
-    console.log('isGameFinished');
-    console.log(board);
+// game finished when there are no ship in the board
+export const isGameFinished = board => (
+    board.every(row =>
+        row.every(cellCode =>
+            !isShipCode(cellCode)
+        )
+    )
+);
 
+// a valid board should have correct shaped ships
+// only horizontal or vertical
+// with correct size (ex. type 5 ship, occupy 5 cells)
+export const isValidBoard = board => {
+    let traceBoard = createEmptyBoard(board.length);
 
-    const boardRows = board[0].length;
-    const boardCols = boardRows;
-
-    for(let rowIterator = 0; rowIterator < boardRows; rowIterator++){
-        //console.log('iterating row: ', rowIterator);
-        for(let colIterator = 0; colIterator < boardCols; colIterator++){
-            //console.log('iterating col: ', colIterator);
-            const cellCode = board[rowIterator][colIterator];
-            console.log('cell value: ', cellCode);
-            if(isShipCode(cellCode)){
-                console.log('returningi false')
-                return false;
-            }
-        }
-    }
-    console.log('returningi true');
-    return true;
+    return board.every((row, rowIndex) =>
+        row.every((cell, colIndex)=> (
+            (CellCodes.ships.includes(cell)
+                && traceBoard[rowIndex][colIndex] === CellCodes.default
+            )
+                ? traceShip(board, traceBoard, rowIndex, colIndex)
+                : true
+        ))
+    );
 };
 
-export const validBoard = board => {
-    // TODO - complete
+const getCell = (board, row, col) => {
+    const boardRows = board.length;
+    const boardCols = board[0].length;
 
-    // ships can not overlap and shout be ship shaped (all vertical or all horizontal) with correct size
+    if(row >= 0 && row < boardRows && col >= 0 && col < boardCols)
+        return board[row][col];
 
-    const tempBoard = createEmptyBoard(this.rules.boardWidth);
+    return null;
+};
 
-    // codes:
-    // 0 -> not checked
-    // -1 -> checked
-    // 1 -> ship part
+const isCorrectShip = (shapeArray, shipCode) => {
+    if(shapeArray.length === shipCode){
+        if( shapeArray.every(el => el === shipCode))
+            return true
+    }
+    return false;
+};
 
+// trace and flag ships
+export const traceShip = (board, traceBoard, row, col) => {
+    let shipSize = board[row][col];
 
-    let rowIterator = 0;
-    let colIterator = 0;
+    // trace codes
+    // 0 = un tracked
+    // 1 = tracked
+    traceBoard[row][col] = 1;
 
+    // is horizontal?
+    let horizontalShip = [shipSize];
+
+    for(let shipCells = 0; shipCells < shipSize ; shipCells++ ){
+        let rightCel = getCell(board,row,col+shipCells);
+
+        if(rightCel === null)
+            break;
+
+        // only look for ships on un tracked cells
+        if(traceBoard[row][col+shipCells] === 0 && rightCel === shipSize) {
+            traceBoard[row][col + shipCells] = 1;
+            horizontalShip.push(rightCel);
+        }
+    }
+
+    if(isCorrectShip(horizontalShip, shipSize)) {
+        // is a horizontal shaped ship
+        return true;
+    }
+
+    // is vertical?
+    let verticalShip = [shipSize];
+
+    for(let shipCells = 0; shipCells < shipSize ; shipCells++ ){
+        let lowerCell = getCell(board,row+shipCells,col);
+
+        if(lowerCell === null)
+            break;
+
+        // only look for ships on un tracked cells
+        if(traceBoard[row+shipCells][col] === 0 && lowerCell === shipSize) {
+            traceBoard[row+shipCells][col] = 1;
+            verticalShip.push(lowerCell);
+        }
+    }
+
+    if(isCorrectShip(verticalShip, shipSize)){
+        // is a vertical ship
+        return true;
+    }
+
+    return false;
 };

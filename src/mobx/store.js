@@ -7,7 +7,7 @@ import GameStore from './stores/gameStore';
 // constants
 const title = 'Battleship';
 const players = ['player1', 'player2'];
-const rules = {
+export const rules = {
     boardWidth: 3,
     ships: [[2,1]],
 };
