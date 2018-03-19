@@ -5,16 +5,18 @@ import Cell from '../cell';
 
 var charCode = "a".charCodeAt(0);
 const ColHeaders = ({ cols }) => (
-    <tr>
-        <td></td>
-        {cols.map((col, i) => (
-            <td key={i}>
-                <Cell>
-                    {String.fromCharCode(charCode+i)}
-                </Cell>
-            </td>
-        ))}
-    </tr>
+    <tbody>
+        <tr>
+            <td></td>
+            {cols.map((col, i) => (
+                <td key={i}>
+                    <Cell>
+                        {String.fromCharCode(charCode+i)}
+                    </Cell>
+                </td>
+            ))}
+        </tr>
+    </tbody>
 );
 
 const MainBoard = ({board, callback}) => (
