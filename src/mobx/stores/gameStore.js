@@ -68,7 +68,7 @@ class GameStore {
             axios.post('/scores', {
                 players: this.rootStore.players.list,
                 winner: this.rootStore.players.list[this.rootStore.players.turn],
-                date: new Date(),
+                date: new Date().toISOString(),
             })
             .then(function (response) {
                 console.log(response);
