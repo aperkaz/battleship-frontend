@@ -7,9 +7,6 @@ import Preparation from '../components/pages/Preparation';
 import Game from '../components/pages/Game';
 import Celebration from '../components/pages/Celebration';
 
-// TODO - remove
-const Scoreboard = () => <div>Scoreboard</div>;
-
 const views = {
     start: new Route({
        path: '/',
@@ -30,13 +27,6 @@ const views = {
         component: <Game/>,
         beforeEnter: (route, params, store) => {
             console.log('entering /game route');
-        },
-    }),
-    scoreboard: new Route({
-        path: '/scoreboard',
-        component: <Scoreboard/>,
-        beforeEnter: (route, params, store) => {
-            console.log('entering /scoreboard route');
         },
     }),
     celebration: new Route({
