@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'mobx-router';
 import styled from 'styled-components';
+import { Button } from 'semantic-ui-react';
 import views from '../../../config/views';
 
 const Ol = styled.ol`
@@ -9,12 +10,11 @@ const Ol = styled.ol`
     display: inline-block;
 `;
 
+const Image = styled.img`
+  height: 200px;
+`;
 
 class Start extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount(){
         this.props.store.game.newGame();
@@ -25,6 +25,8 @@ class Start extends React.Component {
         return (
             <div>
                 <p>Welcome to a two player {store.game.title} game!</p>
+                <br/>
+                <Image src="http://moziru.com/images/war-clipart-battleship-14.jpg" alt="battleship"/>
                 <br/>
                 <p>
                     Build following the rules for the "1990 Milton Bradley" version, presented &nbsp;
@@ -40,7 +42,7 @@ class Start extends React.Component {
                 </div>
                 <br/>
                 <Link view={views.preparation} store={store}>
-                    <button>Go to ship preparation</button>
+                    <Button primary>Go to ship preparation</Button>
                 </Link>
             </div>
         )

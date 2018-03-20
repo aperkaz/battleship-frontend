@@ -1,9 +1,9 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'mobx-router';
+import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import views from '../../../config/views';
-
 import PreparationBoard from '../../widgets/board/index';
 import ShipPlacement from '../../widgets/shipPlacement/index';
 
@@ -27,14 +27,14 @@ export const Preparation = ({ store }) => {
                 <ShipPlacement count={count} size={size} />
             </Div>
             <br/>
-            <button onClick={preparation.reset}>Reset board</button>
+            <Button onClick={preparation.reset}>Reset board</Button>
             <br/>
             <br/>
             {preparation.playerFinished
-            ? <button onClick={preparation.prepareNextPlayer}>Switch to next player</button>
+            ? <Button primary onClick={preparation.prepareNextPlayer}>Switch to next player</Button>
             : null}
             {preparation.finished ?
-                <Link view={views.game} store={store}><button onClick={store.players.changeTurn}>Start game</button></Link>
+                <Link view={views.game} store={store}><Button primary onClick={store.players.changeTurn}>Start game</Button></Link>
             : null}
         </div>
     );

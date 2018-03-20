@@ -1,6 +1,7 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import axios from 'axios';
+import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const Table = styled.table`
@@ -73,7 +74,7 @@ class Celebration extends React.Component {
                     </div>
                     : <div>No scores available</div>}
                 <br/>
-                <button onClick={game.newGame}>New Game</button>
+                <Button primary onClick={game.newGame}>New Game</Button>
             </div>
         )
     }

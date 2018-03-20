@@ -1,8 +1,7 @@
-// -- dependencies --
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import styled from 'styled-components';
-// -- app --
+import { Button } from 'semantic-ui-react';
 import PlayerBoard from '../../widgets/board/index';
 import OpponentBoard from '../../widgets/board/index';
 
@@ -28,7 +27,7 @@ const Game = ({store}) => {
             <h4>Turn of: {players.list[players.turn]}</h4>
             <br/>
             {(players.turnWait)?
-                <button onClick={players.toggleTurnWait}>Resume as {players.list[players.turn]}</button>
+                <Button primary onClick={players.toggleTurnWait}>Resume as {players.list[players.turn]}</Button>
             : <div>
                     <Div>
                         <div>
