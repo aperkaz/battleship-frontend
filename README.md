@@ -16,5 +16,7 @@ Available scripts:
 
 - React.js: view layer
 - MobX: client side state management
+- mobx-router: routing
+- axios: http calls
 - Storybook: visual UI component dev and testing in isolation
 
