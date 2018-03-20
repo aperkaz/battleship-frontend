@@ -1,4 +1,5 @@
 import {observable, action} from 'mobx';
+import axios from 'axios';
 import {
     createEmptyBoard,
     CellCodes,
@@ -16,6 +17,9 @@ class GameStore {
         this.rules = rules;
         this.gameFinished = false;
         this.initGame();
+        setInterval(action(function tick() {
+            this.timer += 1;
+        }), 1000);
     }
 
     initGame(){
@@ -25,6 +29,7 @@ class GameStore {
             [createEmptyBoard(boardWidth),createEmptyBoard(boardWidth)],
             [createEmptyBoard(boardWidth),createEmptyBoard(boardWidth)]
         ];
+        this.timer = 0;
     }
 
     @observable title = '';
@@ -32,7 +37,6 @@ class GameStore {
     @observable gameFinished = false;
 
     @observable boards = [[null,null],[null,null]];
-
 
     @action.bound
     sendHit(row, col){
@@ -66,6 +70,18 @@ class GameStore {
             this.rootStore.router.goTo(views.celebration);
             // send REST call
             // TODO
+            axios.post('/scores', {
+                players: this.rootStore.players.list,
+                winner: this.rootStore.players.list[this.rootStore.players.turn],
+                gameTime: this.timer,
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         }else{
             // end of turn
             this.rootStore.players.toggleTurnWait();
