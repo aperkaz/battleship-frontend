@@ -17,6 +17,7 @@ const Image = styled.img`
 class Start extends React.Component {
 
     componentDidMount(){
+      console.log(this.props);
         this.props.store.game.newGame();
     }
 

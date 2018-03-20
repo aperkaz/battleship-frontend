@@ -19,17 +19,18 @@ const p2Board = [
 ];
 
 const store = {
-    app: {
+
         players:{
             list: ['p1', 'p2'],
             turn: 0
         },
-        boards: [
+        game: {
+          boards: [
             [p1Board,p2Board],
             [emptyBoard,emptyBoard]
-        ],
-        sendHit: (row,col) => console.log('sendHitTo, ',row,':',col),
-    },
+          ],
+          sendHit: (row,col) => console.log('sendHitTo, ',row,':',col),
+        },
 };
 
 storiesOf('pages/Game', module)

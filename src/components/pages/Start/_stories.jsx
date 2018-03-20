@@ -5,7 +5,8 @@ import Start from './default';
 
 const store = {
     game: {
-        title: 'battleship'
+        title: 'battleship',
+        newGame: () => console.log('trigger newGame()')
     },
     router: () => 'bar'
 };

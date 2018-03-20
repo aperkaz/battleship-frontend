@@ -13,23 +13,24 @@ const store = {
         list: ['p1', 'p2'],
         turnWait: true,
     },
+    preparation: {
+      callback: (row,col) => console.log('to set ship in: ', row, ':', col),
+      board: emptyBoard,
+      validBoard: false,
+      shipIndex: 0,
+      current:{
+        shipPieces: 0,
+        shipCount: 0,
+        isShipComplete: false,
+        isShipTypeComplete: false,
+      },
+      playerFinished: false,
+      finished: false,
+    },
     game: {
         title: 'battleship',
         rules: {
             ships: [[5,1], [4,1], [3,1], [2,2]],
-        },
-        preparation: {
-            callback: (row,col) => console.log('to set ship in: ', row, ':', col),
-            board: emptyBoard,
-            shipIndex: 0,
-            current:{
-                shipPieces: 0,
-                shipCount: 0,
-                isComplete: false,
-                isTypeComplete: false,
-            },
-            playerFinished: false,
-            finished: false,
         },
     },
     router: {
