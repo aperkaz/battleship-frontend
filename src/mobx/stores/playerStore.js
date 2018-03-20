@@ -1,7 +1,5 @@
 import {observable, action} from 'mobx';
 
-
-
 class PlayerStore {
 
     constructor(rootStore, player1, player2){
@@ -29,7 +27,6 @@ class PlayerStore {
 
     @action.bound
     toggleTurnWait(){
-        console.log('toggle waitTurn');
         this.turnWait = !this.turnWait;
     }
 

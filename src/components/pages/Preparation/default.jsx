@@ -12,11 +12,8 @@ const Div = styled.div`
      justify-content: center;
 `;
 
-// TODO - remove rendering hack (board)
 export const Preparation = ({ store }) => {
-    const {players, game} = store;
-    const {preparation} = game;
-
+    const {players, preparation, game} = store;
 
     const size  = game.rules.ships[preparation.shipIndex][0];
     const count = game.rules.ships[preparation.shipIndex][1];
@@ -25,21 +22,16 @@ export const Preparation = ({ store }) => {
         <div>
             <div>Preparation screen for</div>
             <h4>{players.list[players.turn]}</h4>
-            <div style={{ visibility: ''}}>{JSON.stringify(game.boards[0])}</div>
-            <br/>
-            <div style={{ visibility: ''}}>{JSON.stringify(preparation.board)}</div>
-            <div>Ship count: {preparation.current.shipCount}</div>
-            <div>Ship pieces: {preparation.current.shipPieces}</div>
             <Div>
                 <PreparationBoard board={preparation.board} callback={preparation.callback}/>
                 <ShipPlacement count={count} size={size} />
             </Div>
             <br/>
-            <button onClick={game.resetPreparation}>Reset preparation board</button>
+            <button onClick={preparation.reset}>Reset board</button>
             <br/>
             <br/>
             {preparation.playerFinished
-            ? <button onClick={store.game.prepareNextPlayer}>Switch to Next player</button>
+            ? <button onClick={preparation.prepareNextPlayer}>Switch to next player</button>
             : null}
             {preparation.finished ?
                 <Link view={views.game} store={store}><button onClick={store.players.changeTurn}>Start game</button></Link>

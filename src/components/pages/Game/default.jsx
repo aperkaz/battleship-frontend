@@ -26,13 +26,10 @@ const Game = ({store}) => {
         <div>
             <div>Game on!</div>
             <h4>Turn of: {players.list[players.turn]}</h4>
+            <br/>
             {(players.turnWait)?
                 <button onClick={players.toggleTurnWait}>Resume as {players.list[players.turn]}</button>
             : <div>
-                    <div>{JSON.stringify(game.boards)}</div>
-                    <br/>
-
-                    <br/>
                     <Div>
                         <div>
                             <OpponentBoard
@@ -47,7 +44,7 @@ const Game = ({store}) => {
                         </PlayerBoardWrapper>
                     </Div>
                     <br/>
-                    <div>Select square to attack</div>
+                    <div>Select square on the opponent's board to attack</div>
                 </div>
             }
 
